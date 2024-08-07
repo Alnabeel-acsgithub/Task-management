@@ -1,4 +1,6 @@
+import clsx from "clsx";
 import React from "react";
+import { FaTasks, FaTrashAlt, FaUsers } from "react-icons/fa";
 import {
   MdDashboard,
   MdOutlineAddTask,
@@ -6,11 +8,9 @@ import {
   MdSettings,
   MdTaskAlt,
 } from "react-icons/md";
-import { FaTasks, FaTrashAlt, FaUsers } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { setOpenSidebar } from "../redux/slices/authSlice";
-import clsx from "clsx";
 
 const linkData = [
   {
@@ -85,7 +85,7 @@ const Sidebar = () => {
         <p className='bg-blue-600 p-2 rounded-full'>
           <MdOutlineAddTask className='text-white text-2xl font-black' />
         </p>
-        <span className='text-2xl font-bold text-black'>TaskMe</span>
+        <span className='text-2xl font-bold text-black'>Task</span>
       </h1>
 
       <div className='flex-1 flex flex-col gap-y-5 py-8'>
