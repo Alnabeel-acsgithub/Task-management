@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import ModalWrapper from "../ModalWrapper";
 import { Dialog } from "@headlessui/react";
-import Textbox from "../Textbox";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import UserList from "./UserList";
-import SelectList from "../SelectList";
 import { BiImages } from "react-icons/bi";
+import { databases } from "../../appWrite";
 import Button from "../Button";
-
+import ModalWrapper from "../ModalWrapper";
+import SelectList from "../SelectList";
+import Textbox from "../Textbox";
+import UserList from "./UserList";
 const LISTS = ["TODO", "IN PROGRESS", "COMPLETED"];
 const PRIORIRY = ["HIGH", "MEDIUM", "NORMAL", "LOW"];
 
@@ -29,7 +29,24 @@ const AddTask = ({ open, setOpen }) => {
   const [assets, setAssets] = useState([]);
   const [uploading, setUploading] = useState(false);
 
-  const submitHandler = () => {};
+  const submitHandler = () => {
+    console.log("hi",register,handleSubmit);
+   const data ={
+      
+      name:"Newtask",
+    
+    }
+    try {
+      setTimeout(() => {
+        const response = databases.createDocument('66b30edc003c5993210e', '66b317e300240053a94a', '1h23', data);
+        console.log('Document created successfully', response);
+
+      }, 1000);
+    } catch (error) {
+      console.error('Error creating document:', error);
+    }
+    
+  };
 
   const handleSelect = (e) => {
     setAssets(e.target.files);
