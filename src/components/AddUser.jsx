@@ -6,6 +6,12 @@ import { Dialog } from "@headlessui/react";
 import Textbox from "./Textbox";
 import Loading from "./Loader";
 import Button from "./Button";
+import { databases } from "../appWrite";
+import { v4 as uuidv4 } from 'uuid';
+
+
+
+const documentId = uuidv4();
 
 const AddUser = ({ open, setOpen, userData }) => {
   let defaultValues = userData ?? {};
@@ -20,7 +26,23 @@ const AddUser = ({ open, setOpen, userData }) => {
     formState: { errors },
   } = useForm({ defaultValues });
 
-  const handleOnSubmit = () => {};
+  const handleOnSubmit = (data) => {
+    console.log("hi", data);
+    const taskData = {
+      name: data.name,
+      title: data.title,
+      email: data.email,
+      role: data.role
+    }
+    try {
+      setTimeout(() => {
+        const response = databases.createDocument('66b30edc003c5993210e', '66b34ee30007c705f964', documentId, taskData);
+        console.log('Users created successfully', response);
+      }, 1000);
+    } catch (error) {
+      console.error('Error creating Users:', error);
+    }
+  };
 
   return (
     <>
