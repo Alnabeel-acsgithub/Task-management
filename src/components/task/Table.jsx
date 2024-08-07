@@ -28,7 +28,8 @@ const Table = ({ tasks }) => {
   const TableHeader = () => (
     <thead className='w-full border-b border-gray-300'>
       <tr className='w-full text-black  text-left'>
-        <th className='py-2'>Task Title</th>
+        <th className='py-2'>Task</th>
+        <th className='py-2'>Status</th>
         <th className='py-2'>Priority</th>
         <th className='py-2 line-clamp-1'>Created At</th>
         {/* <th className='py-2'>Team</th> */}
@@ -48,14 +49,23 @@ const Table = ({ tasks }) => {
           </p>
         </div>
       </td>
-
       <td className='py-2'>
         <div className={"flex gap-1 items-center"}>
           <span className={clsx("text-lg", PRIOTITYSTYELS[task?.priority])}>
             {ICONS[task?.priority]}
           </span>
           <span className='capitalize line-clamp-1'>
-            {task?.priority} Priority
+            {task?.status}
+          </span>
+        </div>
+      </td>
+      <td className='py-2'>
+        <div className={"flex gap-1 items-center"}>
+          <span className={clsx("text-lg", PRIOTITYSTYELS[task?.priority])}>
+            {ICONS[task?.priority]}
+          </span>
+          <span className='capitalize line-clamp-1'>
+            {task?.priority}
           </span>
         </div>
       </td>

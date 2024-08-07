@@ -31,14 +31,14 @@ const Tasks = () => {
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const status = params?.status || "";
+  const { status } = useParams();
   const [tasksdata, setTaskdata] = useState([])
   useEffect(() => {
     // Function to fetch data
     const fetchData = async () => {
       try {
         const response = await databases.listDocuments("66b30edc003c5993210e", "66b317e300240053a94a");
-        console.log(response.documents);
+        // console.log(response.documents);
         setTaskdata(response.documents) // Logs the fetched documents
       } catch (error) {
         console.error('Failed to fetch tasks', error);
@@ -49,7 +49,13 @@ const Tasks = () => {
     // Call the function
     fetchData();
   }, []); // Empty dependency array ensures this runs only once
-
+  let filteredTasks = tasksdata
+  if (status != null) {
+    filteredTasks = tasksdata.filter(task => task.status === status);
+  }
+ 
+  // const inProgressTasks = tasksdata.filter(task => task.status === 'in-progress');
+  // const completedTasks = tasksdata.filter(task => task.status === 'completed');
   return loading ? (
     <div className='py-10'>
       <Loading />
@@ -85,7 +91,7 @@ const Tasks = () => {
           <BoardView tasks={tasks} />
         ) : (
           <div className='w-full'>
-            <Table tasks={tasksdata} />
+            <Table tasks={filteredTasks} />
           </div>
         )}
       </Tabs>
