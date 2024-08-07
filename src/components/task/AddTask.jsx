@@ -45,12 +45,15 @@ const AddTask = ({ open, setOpen }) => {
         console.log('Document created successfully', response);
         setOpen(false)
         // window.location.reload();
-      }, 1000);
+      }, 500);
 
     } catch (error) {
       console.error('Error creating document:', error);
     }finally{
-      window.location.reload()
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000);
+    
     }
     
   };
