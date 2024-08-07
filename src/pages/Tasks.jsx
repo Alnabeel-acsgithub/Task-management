@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaList } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { MdGridView } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { databases } from "../appWrite";
 import { tasks } from "../assets/data";
@@ -15,7 +14,7 @@ import TaskTitle from "../components/TaskTitle";
 import Title from "../components/Title";
 
 const TABS = [
-  { title: "Board View", icon: <MdGridView /> },
+  // { title: "Board View", icon: <MdGridView /> },
   { title: "List View", icon: <FaList /> },
 ];
 
@@ -88,10 +87,11 @@ const Tasks = () => {
         )}
 
         {selected !== 1 ? (
-          <BoardView tasks={tasks} />
+          <Table tasks={filteredTasks} />
         ) : (
           <div className='w-full'>
-            <Table tasks={filteredTasks} />
+            <BoardView tasks={tasks} />
+
           </div>
         )}
       </Tabs>

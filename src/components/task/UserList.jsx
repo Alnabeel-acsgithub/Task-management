@@ -1,10 +1,10 @@
 import { Listbox, Transition } from "@headlessui/react";
+import clsx from "clsx";
 import { Fragment, useEffect, useState } from "react";
 import { BsChevronExpand } from "react-icons/bs";
-import { summary } from "../../assets/data";
-import clsx from "clsx";
-import { getInitials } from "../../utils";
 import { MdCheck } from "react-icons/md";
+import { summary } from "../../assets/data";
+import { getInitials } from "../../utils";
 
 const UserList = ({ setTeam, team }) => {
   const data = summary.users;
