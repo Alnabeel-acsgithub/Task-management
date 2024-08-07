@@ -63,7 +63,7 @@ const Users = () => {
           name: task.name,
           email: task.email,
           role: task.role,
-        
+          title: task.title,
         }));
 
         setTaskData({ totalTasks, last10Task });
