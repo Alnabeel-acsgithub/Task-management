@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaList } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 import { MdGridView } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import Loading from "../components/Loader";
-import Title from "../components/Title";
-import Button from "../components/Button";
-import { IoMdAdd } from "react-icons/io";
-import Tabs from "../components/Tabs";
-import TaskTitle from "../components/TaskTitle";
-import BoardView from "../components/BoardView";
+import { databases } from "../appWrite";
 import { tasks } from "../assets/data";
-import Table from "../components/task/Table";
+import BoardView from "../components/BoardView";
+import Button from "../components/Button";
+import Loading from "../components/Loader";
+import Tabs from "../components/Tabs";
 import AddTask from "../components/task/AddTask";
+import Table from "../components/task/Table";
+import TaskTitle from "../components/TaskTitle";
+import Title from "../components/Title";
 
 const TABS = [
   { title: "Board View", icon: <MdGridView /> },
@@ -30,8 +31,24 @@ const Tasks = () => {
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const status = params?.status || "";
+  const [tasksdata, setTaskdata] = useState([])
+  useEffect(() => {
+    // Function to fetch data
+    const fetchData = async () => {
+      try {
+        const response = await databases.listDocuments("66b30edc003c5993210e", "66b317e300240053a94a");
+        console.log(response.documents);
+        setTaskdata(response.documents) // Logs the fetched documents
+      } catch (error) {
+        console.error('Failed to fetch tasks', error);
+        throw error;
+      }
+    };
+
+    // Call the function
+    fetchData();
+  }, []); // Empty dependency array ensures this runs only once
 
   return loading ? (
     <div className='py-10'>
@@ -68,7 +85,7 @@ const Tasks = () => {
           <BoardView tasks={tasks} />
         ) : (
           <div className='w-full'>
-            <Table tasks={tasks} />
+            <Table tasks={tasksdata} />
           </div>
         )}
       </Tabs>

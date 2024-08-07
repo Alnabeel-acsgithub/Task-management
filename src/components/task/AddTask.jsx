@@ -1,7 +1,6 @@
 import { Dialog } from "@headlessui/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { BiImages } from "react-icons/bi";
 import { databases } from "../../appWrite";
 import Button from "../Button";
 import ModalWrapper from "../ModalWrapper";
@@ -29,16 +28,19 @@ const AddTask = ({ open, setOpen }) => {
   const [assets, setAssets] = useState([]);
   const [uploading, setUploading] = useState(false);
 
-  const submitHandler = () => {
-    console.log("hi",register,handleSubmit);
-   const data ={
-      
-      name:"Newtask",
+  const submitHandler = (data) => {
+    console.log("hi",data,stage,priority,team);
+   const taskData ={
+         title: data.title,
+         date:data.date,
+         status:stage,
+         priority:priority,
+         assignee:"Alfarhan"
     
     }
     try {
       setTimeout(() => {
-        const response = databases.createDocument('66b30edc003c5993210e', '66b317e300240053a94a', '1h23', data);
+        const response = databases.createDocument('66b30edc003c5993210e', '66b317e300240053a94a', '1234567890', taskData);
         console.log('Document created successfully', response);
 
       }, 1000);
@@ -107,23 +109,7 @@ const AddTask = ({ open, setOpen }) => {
                 setSelected={setPriority}
               />
 
-              <div className='w-full flex items-center justify-center mt-4'>
-                <label
-                  className='flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-1 cursor-pointer my-4'
-                  htmlFor='imgUpload'
-                >
-                  <input
-                    type='file'
-                    className='hidden'
-                    id='imgUpload'
-                    onChange={(e) => handleSelect(e)}
-                    accept='.jpg, .png, .jpeg'
-                    multiple={true}
-                  />
-                  <BiImages />
-                  <span>Add Assets</span>
-                </label>
-              </div>
+             
             </div>
 
             <div className='bg-gray-50 py-6 sm:flex sm:flex-row-reverse gap-4'>
