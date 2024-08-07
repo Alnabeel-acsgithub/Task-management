@@ -44,6 +44,7 @@ const AddOrEditUser = ({ open, setOpen, userData }) => {
     try {
       const response = await databases.createDocument('66b30edc003c5993210e', '66b34ee30007c705f964', documentId, taskData);
       console.log('User created successfully', response);
+      window.location.reload();
     } catch (error) {
       console.error('Error creating user:', error);
     }
@@ -53,6 +54,7 @@ const AddOrEditUser = ({ open, setOpen, userData }) => {
     try {
       const response = await databases.updateDocument('66b30edc003c5993210e', '66b34ee30007c705f964', documentId, taskData);
       console.log('User updated successfully', response);
+      window.location.reload();
     } catch (error) {
       console.error('Error updating user:', error);
     }
