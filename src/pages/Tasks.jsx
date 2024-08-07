@@ -15,7 +15,7 @@ import Title from "../components/Title";
 
 const TABS = [
   // { title: "Board View", icon: <MdGridView /> },
-  { title: "List View", icon: <FaList /> },
+  // { title: "List View", icon: <FaList /> },
 ];
 
 const TASK_TYPE = {
@@ -77,12 +77,7 @@ const Tasks = () => {
       <Tabs tabs={TABS} setSelected={setSelected}>
         {!status && (
           <div className='w-full flex justify-between gap-4 md:gap-x-12 py-4'>
-            <TaskTitle label='To Do' className={TASK_TYPE.todo} />
-            <TaskTitle
-              label='In Progress'
-              className={TASK_TYPE["in progress"]}
-            />
-            <TaskTitle label='completed' className={TASK_TYPE.completed} />
+        
           </div>
         )}
 

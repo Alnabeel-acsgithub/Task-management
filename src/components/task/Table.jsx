@@ -31,7 +31,7 @@ const Table = ({ tasks }) => {
         <th className='py-2'>Task</th>
         <th className='py-2'>Status</th>
         <th className='py-2'>Priority</th>
-        <th className='py-2 line-clamp-1'>Created At</th>
+        <th className='py-2 line-clamp-1'>Due Date</th>
         {/* <th className='py-2'>Team</th> */}
       </tr>
     </thead>
