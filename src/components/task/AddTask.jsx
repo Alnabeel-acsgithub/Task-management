@@ -43,12 +43,14 @@ const AddTask = ({ open, setOpen }) => {
       setTimeout(() => {
         const response = databases.createDocument('66b30edc003c5993210e', '66b317e300240053a94a', documentId, taskData);
         console.log('Document created successfully', response);
-
+        setOpen(false)
+        // window.location.reload();
       }, 1000);
-      
 
     } catch (error) {
       console.error('Error creating document:', error);
+    }finally{
+      window.location.reload()
     }
     
   };
