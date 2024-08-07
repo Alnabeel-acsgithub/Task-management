@@ -112,17 +112,6 @@ const Users = () => {
       <td className='p-2'>{task.email || "user.email.com"}</td>
       <td className='p-2'>{task.role}</td>
 
-      <td>
-        <button
-          className={clsx(
-            "w-fit px-4 py-1 rounded-full",
-            task?.isActive ? "bg-blue-200" : "bg-yellow-100"
-          )}
-        >
-         
-        </button>
-      </td>
-
       <td className='p-2 flex gap-4 justify-end'>
         <Button
           className='text-blue-600 hover:text-blue-500 font-semibold sm:px-0'
