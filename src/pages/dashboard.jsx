@@ -1,4 +1,5 @@
-import React from "react";
+// import React from "react";
+import React, { useEffect , useState} from "react";
 import {
   MdAdminPanelSettings,
   MdKeyboardArrowDown,
@@ -14,13 +15,21 @@ import clsx from "clsx";
 import { Chart } from "../components/Chart";
 import { BGS, PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
 import UserInfo from "../components/UserInfo";
+import { databases } from "../appWrite";
+
+
 
 const TaskTable = ({ tasks }) => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const ICONS = {
     high: <MdKeyboardDoubleArrowUp />,
     medium: <MdKeyboardArrowUp />,
     low: <MdKeyboardArrowDown />,
   };
+    
+  
+  
 
   const TableHeader = () => (
     <thead className='border-b border-gray-300 '>
@@ -147,33 +156,67 @@ const UserTable = ({ users }) => {
 };
 const Dashboard = () => {
   const totals = summary.tasks;
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [inprogressTasks, setinprogressTasks] = useState(0);
+  const [completeTasks, setcompleteTasks] = useState(0);
+  const [todoTasks, settodoTasks] = useState(0);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    console.log("Fetching tasks...");
+    const fetchTasks = async () => {
+      try {
+        console.log("Fetching from API...");
+        const response = await databases.listDocuments(
+          '66b30edc003c5993210e', // Database ID
+          '66b317e300240053a94a' // Collection ID
+        );
+        
 
+        console.log('Tasks:', response);
+        
+        // Assuming response contains an array of documents
+        const tasks = response.documents || []; // Adjust based on your API response
+        const todoCount = tasks.filter(task => task.status === 'todo').length;
+        const inprogress = tasks.filter(task => task.status === 'inprogress').length;
+        const completed = tasks.filter(task => task.status === 'completed').length;
+        setTotalTasks(tasks.length); // Set the total tasks count
+        setinprogressTasks(inprogress);
+        setcompleteTasks(completed);
+        settodoTasks(todoCount);
+      } catch (err) {
+        setError(err.message);
+        console.error('Error fetching tasks:', err);
+      }
+    };
+
+    fetchTasks();
+  }, []); 
   const stats = [
     {
       _id: "1",
       label: "TOTAL TASK",
-      total: summary?.totalTasks || 0,
+      total: totalTasks || 0,
       icon: <FaNewspaper />,
       bg: "bg-[#1d4ed8]",
     },
     {
       _id: "2",
       label: "COMPLTED TASK",
-      total: totals["completed"] || 0,
+      total: completeTasks || 0,
       icon: <MdAdminPanelSettings />,
       bg: "bg-[#0f766e]",
     },
     {
       _id: "3",
       label: "TASK IN PROGRESS ",
-      total: totals["in progress"] || 0,
+      total: inprogressTasks || 0,
       icon: <LuClipboardEdit />,
       bg: "bg-[#f59e0b]",
     },
     {
       _id: "4",
       label: "TODOS",
-      total: totals["todo"],
+      total: todoTasks,
       icon: <FaArrowsToDot />,
       bg: "bg-[#be185d]" || 0,
     },
