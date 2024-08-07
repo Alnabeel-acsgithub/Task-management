@@ -17,12 +17,13 @@ const ICONS = {
 const Table = ({ tasks }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [selected, setSelected] = useState(null);
-
+    console.log(tasks,"tasks");
+    
   const deleteClicks = (id) => {
     setSelected(id);
     setOpenDialog(true);
   };
-
+ 
   const deleteHandler = () => {};
 
   const TableHeader = () => (
@@ -32,7 +33,7 @@ const Table = ({ tasks }) => {
         <th className='py-2'>Status</th>
         <th className='py-2'>Priority</th>
         <th className='py-2 line-clamp-1'>Due Date</th>
-        {/* <th className='py-2'>Team</th> */}
+        <th className='py-2'>Team</th>
       </tr>
     </thead>
   );
@@ -93,21 +94,12 @@ const Table = ({ tasks }) => {
         </div>
       </td> */}
 
-      {/* <td className='py-2'>
+      { <td className='py-2'>
         <div className='flex'>
-          {task?.team?.map((m, index) => (
-            <div
-              key={m._id}
-              className={clsx(
-                "w-7 h-7 rounded-full text-white flex items-center justify-center text-sm -mr-1",
-                BGS[index % BGS?.length]
-              )}
-            >
-              <UserInfo user={m} />
-            </div>
-          ))}
+         
+        {task?.assingnee}
         </div>
-      </td> */}
+      </td> }
 
       {/* <td className='py-2 flex gap-2 md:gap-4 justify-end'>
         <Button

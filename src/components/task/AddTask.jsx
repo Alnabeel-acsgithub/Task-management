@@ -1,20 +1,21 @@
 import { Dialog } from "@headlessui/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from 'uuid';
 import { databases } from "../../appWrite";
 import Button from "../Button";
 import ModalWrapper from "../ModalWrapper";
 import SelectList from "../SelectList";
 import Textbox from "../Textbox";
 import UserList from "./UserList";
-const LISTS = ["TODO", "IN PROGRESS", "COMPLETED"];
-const PRIORIRY = ["HIGH", "MEDIUM", "NORMAL", "LOW"];
+const LISTS = ["todo", "in-progress", "complete"];
+const PRIORIRY = ["high", "medium", "normal", "low"];
 
 const uploadedFileURLs = [];
 
 const AddTask = ({ open, setOpen }) => {
   const task = "";
-
+  const documentId = uuidv4();
   const {
     register,
     handleSubmit,
@@ -35,15 +36,17 @@ const AddTask = ({ open, setOpen }) => {
          date:data.date,
          status:stage,
          priority:priority,
-         assignee:"Alfarhan"
+         assingnee:team[0]
     
     }
     try {
       setTimeout(() => {
-        const response = databases.createDocument('66b30edc003c5993210e', '66b317e300240053a94a', '1234567890', taskData);
+        const response = databases.createDocument('66b30edc003c5993210e', '66b317e300240053a94a', documentId, taskData);
         console.log('Document created successfully', response);
 
       }, 1000);
+      
+
     } catch (error) {
       console.error('Error creating document:', error);
     }
