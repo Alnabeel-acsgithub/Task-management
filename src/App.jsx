@@ -5,7 +5,6 @@ import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
-import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Login from "./pages/Login";
 import TaskDetails from "./pages/TaskDetails";
@@ -29,7 +28,7 @@ function Layout() {
       <MobileSidebar />
 
       <div className='flex-1 overflow-y-auto'>
-        <Navbar />
+        {/* <Navbar /> */}
 
         <div className='p-4 2xl:px-10'>
           <Outlet />

@@ -1,12 +1,11 @@
 import clsx from "clsx";
 import React from "react";
-import { FaTasks, FaTrashAlt, FaUsers } from "react-icons/fa";
+import { FaTasks, FaUsers } from "react-icons/fa";
 import {
   MdDashboard,
   MdOutlineAddTask,
   MdOutlinePendingActions,
-  MdSettings,
-  MdTaskAlt,
+  MdTaskAlt
 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
@@ -43,11 +42,7 @@ const linkData = [
     link: "team",
     icon: <FaUsers />,
   },
-  {
-    label: "Trash",
-    link: "trashed",
-    icon: <FaTrashAlt />,
-  },
+  
 ];
 
 const Sidebar = () => {
@@ -95,10 +90,10 @@ const Sidebar = () => {
       </div>
 
       <div className=''>
-        <button className='w-full flex gap-2 p-2 items-center text-lg text-gray-800'>
+        {/* <button className='w-full flex gap-2 p-2 items-center text-lg text-gray-800'>
           <MdSettings />
           <span>Settings</span>
-        </button>
+        </button> */}
       </div>
     </div>
   );
