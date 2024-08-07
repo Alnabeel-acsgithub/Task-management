@@ -1,17 +1,11 @@
+import clsx from "clsx";
 import React, { useState } from "react";
-import { BiMessageAltDetail } from "react-icons/bi";
 import {
-  MdAttachFile,
   MdKeyboardArrowDown,
   MdKeyboardArrowUp,
-  MdKeyboardDoubleArrowUp,
+  MdKeyboardDoubleArrowUp
 } from "react-icons/md";
-import { toast } from "sonner";
-import { BGS, PRIOTITYSTYELS, TASK_TYPE, formatDate } from "../../utils";
-import clsx from "clsx";
-import { FaList } from "react-icons/fa";
-import UserInfo from "../UserInfo";
-import Button from "../Button";
+import { PRIOTITYSTYELS, TASK_TYPE, formatDate } from "../../utils";
 import ConfirmatioDialog from "../Dialogs";
 
 const ICONS = {
@@ -37,8 +31,7 @@ const Table = ({ tasks }) => {
         <th className='py-2'>Task Title</th>
         <th className='py-2'>Priority</th>
         <th className='py-2 line-clamp-1'>Created At</th>
-        <th className='py-2'>Assets</th>
-        <th className='py-2'>Team</th>
+        {/* <th className='py-2'>Team</th> */}
       </tr>
     </thead>
   );
@@ -48,7 +41,7 @@ const Table = ({ tasks }) => {
       <td className='py-2'>
         <div className='flex items-center gap-2'>
           <div
-            className={clsx("w-4 h-4 rounded-full", TASK_TYPE[task.stage])}
+            className={clsx("w-4 h-4 rounded-full", TASK_TYPE[task.status])}
           />
           <p className='w-full line-clamp-2 text-base text-black'>
             {task?.title}
@@ -73,7 +66,7 @@ const Table = ({ tasks }) => {
         </span>
       </td>
 
-      <td className='py-2'>
+      {/* <td className='py-2'>
         <div className='flex items-center gap-3'>
           <div className='flex gap-1 items-center text-sm text-gray-600'>
             <BiMessageAltDetail />
@@ -88,9 +81,9 @@ const Table = ({ tasks }) => {
             <span>0/{task?.subTasks?.length}</span>
           </div>
         </div>
-      </td>
+      </td> */}
 
-      <td className='py-2'>
+      {/* <td className='py-2'>
         <div className='flex'>
           {task?.team?.map((m, index) => (
             <div
@@ -104,9 +97,9 @@ const Table = ({ tasks }) => {
             </div>
           ))}
         </div>
-      </td>
+      </td> */}
 
-      <td className='py-2 flex gap-2 md:gap-4 justify-end'>
+      {/* <td className='py-2 flex gap-2 md:gap-4 justify-end'>
         <Button
           className='text-blue-600 hover:text-blue-500 sm:px-0 text-sm md:text-base'
           label='Edit'
@@ -119,7 +112,7 @@ const Table = ({ tasks }) => {
           type='button'
           onClick={() => deleteClicks(task._id)}
         />
-      </td>
+      </td> */}
     </tr>
   );
   return (
