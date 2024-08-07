@@ -1,18 +1,19 @@
 import { Listbox, Transition } from "@headlessui/react";
+import clsx from "clsx";
 import { Fragment, useEffect, useState } from "react";
 import { BsChevronExpand } from "react-icons/bs";
-import { summary } from "../../assets/data";
-import clsx from "clsx";
-import { getInitials } from "../../utils";
 import { MdCheck } from "react-icons/md";
+import { databases } from "../../appWrite";
+import { getInitials } from "../../utils";
 
-const UserList = ({ setTeam, team }) => {
-  const data = summary.users;
+const UserList = ({ setTeam, team }) => {  
   const [selectedUsers, setSelectedUsers] = useState([]);
-
+  const [data , setData] = useState([])
   const handleChange = (el) => {
     setSelectedUsers(el);
-    setTeam(el?.map((u) => u._id));
+    const cleanedArray = el.filter(Boolean);
+    
+    setTeam(cleanedArray?.map((u) => u.name));
   };
   useEffect(() => {
     if (team?.length < 1) {
@@ -20,8 +21,22 @@ const UserList = ({ setTeam, team }) => {
     } else {
       setSelectedUsers(team);
     }
-  }, []);
+    const fetchteam = async () => {
+      try {
+        const response = await databases.listDocuments("66b30edc003c5993210e", "66b34ee30007c705f964");
+        console.log(response.documents);
+        setData(response.documents)
+        return response.documents;
+      } catch (error) {
+        console.error("Error fetching team:", error);
+        return [];
+      }
+    };
+    fetchteam()
+    
 
+  }, []);
+  
   return (
     <div>
       <p className='text-gray-700'>Assign Task To: </p>
@@ -33,7 +48,7 @@ const UserList = ({ setTeam, team }) => {
         <div className='relative mt-1'>
           <Listbox.Button className='relative w-full cursor-default rounded bg-white pl-3 pr-10 text-left px-3 py-2.5 2xl:py-3 border border-gray-300 sm:text-sm'>
             <span className='block truncate'>
-              {selectedUsers?.map((user) => user.name).join(", ")}
+              {selectedUsers?.map((user) => user?.name)}
             </span>
 
             <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>

@@ -6,9 +6,11 @@ import { Dialog } from "@headlessui/react";
 import Textbox from "./Textbox";
 import Loading from "./Loader";
 import Button from "./Button";
+import { databases } from "../appWrite";
+import { v4 as uuidv4 } from 'uuid';
 
-const AddUser = ({ open, setOpen, userData }) => {
-  let defaultValues = userData ?? {};
+const AddOrEditUser = ({ open, setOpen, userData }) => {
+  const defaultValues = userData ?? {};
   const { user } = useSelector((state) => state.auth);
 
   const isLoading = false,
@@ -20,7 +22,43 @@ const AddUser = ({ open, setOpen, userData }) => {
     formState: { errors },
   } = useForm({ defaultValues });
 
-  const handleOnSubmit = () => {};
+  const handleOnSubmit = (data) => {
+    console.log("Form data submitted", data);
+    const taskData = {
+      name: data.name,
+      title: data.title,
+      email: data.email,
+      role: data.role,
+    };
+    if (userData) {
+      // Update user if userData exists
+      updateUser(userData._id, taskData); // Pass documentId from userData
+    } else {
+      // Add new user if userData does not exist
+      addUser(taskData);
+    }
+  };
+
+  const addUser = async (taskData) => {
+    const documentId = uuidv4();
+    try {
+      const response = await databases.createDocument('66b30edc003c5993210e', '66b34ee30007c705f964', documentId, taskData);
+      console.log('User created successfully', response);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
+  };
+
+  const updateUser = async (documentId, taskData) => {
+    try {
+      const response = await databases.updateDocument('66b30edc003c5993210e', '66b34ee30007c705f964', documentId, taskData);
+      console.log('User updated successfully', response);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error updating user:', error);
+    }
+  };
 
   return (
     <>
@@ -30,7 +68,7 @@ const AddUser = ({ open, setOpen, userData }) => {
             as='h2'
             className='text-base font-bold leading-6 text-gray-900 mb-4'
           >
-            {userData ? "UPDATE PROFILE" : "ADD NEW USER"}
+            {userData ? "UPDATE USER" : "ADD NEW USER"}
           </Dialog.Title>
           <div className='mt-2 flex flex-col gap-6'>
             <Textbox
@@ -106,4 +144,4 @@ const AddUser = ({ open, setOpen, userData }) => {
   );
 };
 
-export default AddUser;
+export default AddOrEditUser;

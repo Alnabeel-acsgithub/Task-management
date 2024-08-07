@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import ModalWrapper from "../ModalWrapper";
 import { Dialog } from "@headlessui/react";
-import Textbox from "../Textbox";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import UserList from "./UserList";
-import SelectList from "../SelectList";
-import { BiImages } from "react-icons/bi";
+import { v4 as uuidv4 } from 'uuid';
+import { databases } from "../../appWrite";
 import Button from "../Button";
-
-const LISTS = ["TODO", "IN PROGRESS", "COMPLETED"];
-const PRIORIRY = ["HIGH", "MEDIUM", "NORMAL", "LOW"];
+import ModalWrapper from "../ModalWrapper";
+import SelectList from "../SelectList";
+import Textbox from "../Textbox";
+import UserList from "./UserList";
+const LISTS = ["todo", "in-progress", "complete"];
+const PRIORIRY = ["high", "medium", "normal", "low"];
 
 const uploadedFileURLs = [];
 
 const AddTask = ({ open, setOpen }) => {
   const task = "";
-
+  const documentId = uuidv4();
   const {
     register,
     handleSubmit,
@@ -29,7 +29,31 @@ const AddTask = ({ open, setOpen }) => {
   const [assets, setAssets] = useState([]);
   const [uploading, setUploading] = useState(false);
 
-  const submitHandler = () => {};
+  const submitHandler = (data) => {
+    console.log("hi",data,stage,priority,team);
+   const taskData ={
+         title: data.title,
+         date:data.date,
+         status:stage,
+         priority:priority,
+         assingnee:team[0]
+    
+    }
+    try {
+      setTimeout(() => {
+        const response = databases.createDocument('66b30edc003c5993210e', '66b317e300240053a94a', documentId, taskData);
+        console.log('Document created successfully', response);
+        setOpen(false)
+        // window.location.reload();
+      }, 1000);
+
+    } catch (error) {
+      console.error('Error creating document:', error);
+    }finally{
+      window.location.reload()
+    }
+    
+  };
 
   const handleSelect = (e) => {
     setAssets(e.target.files);
@@ -90,23 +114,7 @@ const AddTask = ({ open, setOpen }) => {
                 setSelected={setPriority}
               />
 
-              <div className='w-full flex items-center justify-center mt-4'>
-                <label
-                  className='flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-1 cursor-pointer my-4'
-                  htmlFor='imgUpload'
-                >
-                  <input
-                    type='file'
-                    className='hidden'
-                    id='imgUpload'
-                    onChange={(e) => handleSelect(e)}
-                    accept='.jpg, .png, .jpeg'
-                    multiple={true}
-                  />
-                  <BiImages />
-                  <span>Add Assets</span>
-                </label>
-              </div>
+             
             </div>
 
             <div className='bg-gray-50 py-6 sm:flex sm:flex-row-reverse gap-4'>

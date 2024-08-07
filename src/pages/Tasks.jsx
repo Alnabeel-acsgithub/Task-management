@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaList } from "react-icons/fa";
-import { MdGridView } from "react-icons/md";
-import { useParams } from "react-router-dom";
-import Loading from "../components/Loader";
-import Title from "../components/Title";
-import Button from "../components/Button";
 import { IoMdAdd } from "react-icons/io";
-import Tabs from "../components/Tabs";
-import TaskTitle from "../components/TaskTitle";
-import BoardView from "../components/BoardView";
+import { useParams } from "react-router-dom";
+import { databases } from "../appWrite";
 import { tasks } from "../assets/data";
-import Table from "../components/task/Table";
+import BoardView from "../components/BoardView";
+import Button from "../components/Button";
+import Loading from "../components/Loader";
+import Tabs from "../components/Tabs";
 import AddTask from "../components/task/AddTask";
+import Table from "../components/task/Table";
+import TaskTitle from "../components/TaskTitle";
+import Title from "../components/Title";
 
 const TABS = [
-  { title: "Board View", icon: <MdGridView /> },
-  { title: "List View", icon: <FaList /> },
+  // { title: "Board View", icon: <MdGridView /> },
+  // { title: "List View", icon: <FaList /> },
 ];
 
 const TASK_TYPE = {
@@ -30,9 +30,31 @@ const Tasks = () => {
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { status } = useParams();
+  const [tasksdata, setTaskdata] = useState([])
+  useEffect(() => {
+    // Function to fetch data
+    const fetchData = async () => {
+      try {
+        const response = await databases.listDocuments("66b30edc003c5993210e", "66b317e300240053a94a");
+        // console.log(response.documents);
+        setTaskdata(response.documents) // Logs the fetched documents
+      } catch (error) {
+        console.error('Failed to fetch tasks', error);
+        throw error;
+      }
+    };
 
-  const status = params?.status || "";
-
+    // Call the function
+    fetchData();
+  }, []); // Empty dependency array ensures this runs only once
+  let filteredTasks = tasksdata
+  if (status != null) {
+    filteredTasks = tasksdata.filter(task => task.status === status);
+  }
+ 
+  // const inProgressTasks = tasksdata.filter(task => task.status === 'in-progress');
+  // const completedTasks = tasksdata.filter(task => task.status === 'completed');
   return loading ? (
     <div className='py-10'>
       <Loading />
@@ -55,20 +77,16 @@ const Tasks = () => {
       <Tabs tabs={TABS} setSelected={setSelected}>
         {!status && (
           <div className='w-full flex justify-between gap-4 md:gap-x-12 py-4'>
-            <TaskTitle label='To Do' className={TASK_TYPE.todo} />
-            <TaskTitle
-              label='In Progress'
-              className={TASK_TYPE["in progress"]}
-            />
-            <TaskTitle label='completed' className={TASK_TYPE.completed} />
+        
           </div>
         )}
 
         {selected !== 1 ? (
-          <BoardView tasks={tasks} />
+          <Table tasks={filteredTasks} />
         ) : (
           <div className='w-full'>
-            <Table tasks={tasks} />
+            <BoardView tasks={tasks} />
+
           </div>
         )}
       </Tabs>
